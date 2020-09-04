@@ -1,0 +1,15 @@
+Check https://readabilityformulas.com/coleman-liau-readability-formula.php.
+
+Compile using:
+
+```
+make all
+```
+
+Example usage:
+
+```
+./cli [file-name-1] ([file-name-2] [file-name-n])
+```
+
+
