@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../sharedmem.h"
+#include "sharedmem.h"
 
 int
 main(int argc, char* const argv[])

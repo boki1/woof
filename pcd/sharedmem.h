@@ -6,6 +6,9 @@
 #define FILENAME "shmfile"
 #define BL_SIZE 4096
 
+#define SEM_PRODUCER_FNAME "/sem-prod"
+#define SEM_CONSUMER_FNAME "/sem-cons"
+
 char*
 attach_memblock(const char* fname, size_t size);
 

@@ -1,8 +1,8 @@
 SHM_OBJ=sharedmem.o
-SHM_ELF=test/readshm.elf test/writeshm.elf test/destroyshm.elf
+SHM_ELF=readshm.elf writeshm.elf destroyshm.elf
 
-CC=clang
-CFLAGS=-Wall -g
+CC=gcc
+CFLAGS=-Wall -g -pthread
 
 sharedmem.o: sharedmem.c sharedmem.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -13,7 +13,9 @@ sharedmem.o: sharedmem.c sharedmem.h
 %.elf: %.o $(SHM_OBJ)
 	$(CC) $(CFLAGS) $< $(SHM_OBJ) -o $@
 
-test_shm: $(SHM_ELF) 
+all: $(SHM_ELF) 
 	
 clean:
-	rm *.o test/*.elf
+	rm *.o *.elf
+
+PHONY: clean all
