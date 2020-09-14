@@ -1,0 +1,31 @@
+*semaphores*
+===========
+	- basically an unsigned int
+	- support two operations:
+		~ wait()   ->   decrements the semaphore if not 0
+		~ signal() or post()   -> increment the semaphore
+
+	- simple example (initial_value=0)
+		thread A ...wait()...........................
+		thread B ..........wait()                 ...
+		thread C ........................signal()....
+		
+		! thread B cannot decrement so just waits for somebody else to
+		increment
+
+	*semaphore vs mutex*
+	---------------------
+
+		- semaphores can be used as mutexes (they're called binary semaphores)
+		! this doesn't mean you should
+		Check this[1].
+
+		- A Mutex semaphore is "owned" by the task that takes it.
+		- Mutex is for exclusive access to a resource. A Binary semaphore should be 
+			used for Synchronization (i.e. "Hey Someone! This occurred!"). 
+
+
+
+
+[1]: https://stackoverflow.com/questions/62814/difference-between-binary-semaphore-and-mutex
+
