@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DECODE_STR \
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -44,29 +45,48 @@ void n2s(int num, int base, char* sNum, const int size) {
     sNum[i] = DECODE_STR[num];
 }
 
+void help(void) {
+    printf(
+	"Use: bconv BASE_ONE BASE_TWO VALUE"
+	"--help"
+	"--max         %d",
+	DECODE_STR_LENGTH);
+}
+
+void parse_args(int c, char** v) {
+    if (c == 1) {
+	printf("bad usage\n");
+	help();
+    }
+}
+
 int main(int argc, char* argv[]) {
-    // argv[] version
-    int base1 = atoi(argv[1]);
-    int base2 = atoi(argv[2]);
-    char* sNumBaseOne = argv[3];
+    if (argc == 4) {
+	int base1 = atoi(argv[1]);
+	int base2 = atoi(argv[2]);
+	char* sNumBaseOne = argv[3];
 
-    // Convert sNumBaseOne to Decimal
-    int Num;
-    if (base1 != 10)
-	Num = s2n(sNumBaseOne, base1);
-    else
-	Num = atoi(sNumBaseOne);
+	// Convert sNumBaseOne to Decimal
+	int Num;
+	if (base1 != 10)
+	    Num = s2n(sNumBaseOne, base1);
+	else
+	    Num = atoi(sNumBaseOne);
 
-    const int NUM_BASE_TWO_SIZE = calcNumBaseTwoSize(Num, base2);
-    char sNum[NUM_BASE_TWO_SIZE];
+	const int NUM_BASE_TWO_SIZE = calcNumBaseTwoSize(Num, base2);
+	char sNum[NUM_BASE_TWO_SIZE];
 
-    // Convert Num from Decimal to sNumBaseTwo
-    if (base2 != 10)
-	n2s(Num, base2, sNum, NUM_BASE_TWO_SIZE);
-    else
-	sprintf(sNum, "%d", Num);
+	// Convert Num from Decimal to sNumBaseTwo
+	if (base2 != 10)
+	    n2s(Num, base2, sNum, NUM_BASE_TWO_SIZE);
+	else
+	    sprintf(sNum, "%d", Num);
 
-    for (int i = 0; i < NUM_BASE_TWO_SIZE; ++i)
-	printf("%c", sNum[i]);
-    printf("\n");
+	for (int i = 0; i < NUM_BASE_TWO_SIZE; ++i)
+	    printf("%c", sNum[i]);
+	printf("\n");
+    } else {
+	parse_args(argc, argv);
+    }
+    return 0;
 }
