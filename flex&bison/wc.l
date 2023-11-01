@@ -1,3 +1,5 @@
+%option noyywrap
+
 %{
 #include <stdint.h>
 #include <string.h>
