@@ -10,7 +10,6 @@
 %{
 	struct bufstack {
 		struct bufstack *prev;
-		YY_BUFFER_STATE bs;
 		int lineno;
 		const char *filename;
 		FILE *file;
@@ -83,10 +82,9 @@ int newfile(const char *filename) {
 	bs->prev = curbs;
 	bs->filename = filename;
 	bs->file = f;
-	bs->bs = yy_create_buffer(f, YY_BUF_SIZE);
 	bs->lineno = 1;
 
-	yy_switch_to_buffer(bs->bs);
+	yypush_buffer_state(yy_create_buffer(f, YY_BUF_SIZE));
 	yylineno = 1;
 	curbs = bs;
 	curfilename = filename;
@@ -100,14 +98,14 @@ int popfile(void) {
 
 	struct bufstack *bs = curbs;
 	fclose(curbs->file);
-	yy_delete_buffer(curbs->bs);
 
 	struct bufstack *prevbs = curbs->prev;
 	free(curbs);
 
 	if (!prevbs)
 		return 0;
-	yy_switch_to_buffer(prevbs->bs);
+
+	yypop_buffer_state();
 	curbs = prevbs;
 	yylineno = curbs->lineno;
 	curfilename = curbs->filename;
